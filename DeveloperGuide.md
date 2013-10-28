@@ -1,6 +1,6 @@
 Applihelp SDK for Android
 ==================================================
-[Applihelp](http://applihelp.com) |
+[Applihelp](http://www.applihelp.com) |
 [Facebook](http://facebook.com/applihelp) |
 [Twitter](http://twitter.com/applihelp)
 
