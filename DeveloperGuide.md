@@ -20,9 +20,6 @@ Applihelp SDK for Android
 ApplihelpはあなたのAndroidアプリケーションにヘルプサポート機能を提供します。  
 Applihelp SDKはお問い合わせメッセージの送信と回答の受信をサポートします。
 
-- [JavaDoc reference](http://hogehogehoge.com)はSDKのクラスやメソッドの詳しい定義を提供します。
-- [Sample application](http://hogehogehoge.com)は実際にSDKを組込んだサンプルです。
-
 **[[⬆]](#TOC)**
 
 <a name="Requirements">Requirements</a>
@@ -34,8 +31,21 @@ Applihelp SDKはお問い合わせメッセージの送信と回答の受信を�
 
 <a name="Installtion">Installation</a>
 --------------------------------------------------
-### SDK取得
-まだSDKを取得していない場合、Applihelpのアカウントを作成しSDKを取得してください。
+### SDKの構成
+メールでお送りしたSDKファイルの構成は下記の通りです。
+
+<pre>
+/
+├─sample       // サンプルアプリケーションです。Eclipseでプロジェクトとしてインポートしてください。
+└─sdk
+    ├─apphelp_sdk.jar     // SDK本体です。
+    └─res                 // SDKで利用するリソースファイルです。
+        ├─drawable-xhdpi
+        ├─layout
+        ├─values
+        ├─values-v11
+        └─values-v14
+</pre>
 
 ### Applihelpライブラリ追加
 EclipseまたはIntelliJ(Android Studio)のAndroidアプリケーションプロジェクトへapphelp_sdk.jarを追加してください。
