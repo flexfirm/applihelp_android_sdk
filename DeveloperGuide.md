@@ -31,8 +31,13 @@ Applihelp SDKはお問い合わせメッセージの送信と回答の受信を�
 
 <a name="Installtion">Installation</a>
 --------------------------------------------------
-### SDKの構成
-メールでお送りしたSDKファイルの構成は下記の通りです。
+### SDKについて
+SDKを利用するためには事前に[Applihelp](http://console.applihelp.com)のアカウントを取得し、以下の情報を登録している必要があります。
+
+- Androidアプリケーションパッケージ名(例：com.example.sample)  
+- Google API Key(PUSH通知を利用する場合)  
+
+SDKファイルの構成は下記の通りです。
 
 <pre>
 /
@@ -252,7 +257,7 @@ Handler failHandler = new Handler(){
 };
 
 // 新着通知数取得
-appHelp.getNotificationCount(successHandler, failHandler);
+appHelp.getNotificationCount(MainActivity.this, successHandler, failHandler);
 ```
 
 ### PUSH通知受信(GCM)
