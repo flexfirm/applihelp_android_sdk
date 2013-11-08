@@ -396,9 +396,16 @@ PUSH通知を利用するために以下のパーミッションを追加して�
 ```
 
 ### 文字列
-Applihelpが使用する文字列は`res/values/ah_strings.xml`で定義されています。  
-画面に表示される文字列を変更したい場合はファイルを修正してください。
+Applihelpが使用する文字列はリソースファイル`res/values/ah_strings.xml`で定義されています。  
 
+#### 文言の変更
+画面に表示される文字列を変更したい場合はリソースファイルを修正してください。  
+例えば問合せ完了後に表示されるメッセージを変更したい場合は以下の項目を変更してください。
+```xml
+<string name="success_register_issue">\n送信が完了しました。\nお問い合わせありがとうございます。\n</string>
+```
+
+#### 多言語対応(i18n)
 多言語対応(i18n)は以下のようにvaluesフォルダを言語毎に作成し、編集したah_strings.xmlを配置してください。
 
 - `res/values-en/ah_strings.xml`
@@ -417,7 +424,7 @@ Applihelpが使用するテーマは`res/values/ah_theme.xml`に定義されて�
 
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
-- [Ver.0.0.1]Released on Oct 20, 2013
+- [Ver.1.0]Released on Oct 20, 2013
 
 **[[⬆]](#TOC)**
 
