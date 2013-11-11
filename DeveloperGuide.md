@@ -58,8 +58,8 @@ EclipseまたはIntelliJ(Android Studio)のAndroidアプリケーションプロ
 ### 外部ライブラリ追加
 以下の外部ライブラリをAndroidアプリケーションプロジェクトへ追加してください。
 
-- [Asynchronous Http Client](http://loopj.com/android-async-http/)  
-android-async-http-X.X.X.jarをダウンロードし、Androidアプリケーションプロジェクトへ追加してください。
+- [Asynchronous Http Client](https://github.com/loopj/android-async-http/releases)  
+android-async-http-1.4.3.jarをダウンロードし、Androidアプリケーションプロジェクトへ追加してください。
 
 - [Google Play Services SDK](http://loopj.com/android-async-http/)  
 Android SDK ManagerからGoogle Play Services SDKをダウンロードし、Androidアプリケーションプロジェクトへ追加してください。
