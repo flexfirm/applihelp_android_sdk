@@ -64,7 +64,7 @@ android-async-http-1.4.3.jarをダウンロードし、Androidアプリケーシ
 - [Google Play Services SDK](http://loopj.com/android-async-http/)  
 Android SDK ManagerからGoogle Play Services SDKをダウンロードし、Androidアプリケーションプロジェクトへ追加してください。
 詳しいセットアップ方法は以下を参考にしてください。  
-[Setup Google Play Services SDK | Android Developers](http://developer.android.com/google/play-services/setup.html)
+[Setup Google Play Services SDK | Android Developers](http://developer.android.com/google/play-services/setup.html)  
 **※ google-play-services.jar を直接アプリケーション内にコピーするとクラッシュする場合があります。必ずプロジェクトとして取り込んでください。**
 
 ### リソースファイル配置
