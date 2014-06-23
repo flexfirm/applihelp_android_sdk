@@ -18,9 +18,8 @@ Applihelp SDK for Android
 <a name="Introduction">Introduction</a>
 --------------------------------------------------
 ApplihelpはあなたのAndroidアプリケーションにヘルプサポート機能を提供します。  
-ヘルプサポート機能とは以下の機能を指します。
-- よくある質問とその回答（FAQ）を簡単にアプリに組み込める機能
-- お問い合わせメッセージの送信と回答の受信をサポートする機能  
+Applihelp SDKはお問い合わせメッセージの送信と回答の受信をサポートします。
+
 **[[⬆]](#TOC)**
 
 <a name="Requirements">Requirements</a>
@@ -55,6 +54,7 @@ SDKファイルの構成は下記の通りです。
         └─values-v14
 </pre>
 
+
 ### Applihelpライブラリ追加
 EclipseまたはIntelliJ(Android Studio)のAndroidアプリケーションプロジェクトへapphelp_sdk.jarを追加してください。
 
@@ -75,12 +75,6 @@ Android SDK ManagerからGoogle Play Services SDKをダウンロードし、Andr
 ### リソースファイル配置
 SDKに含まれる以下のリソースファイルをあなたのAndroidアプリケーションプロジェクトへ配置してください。
 
-#### アニメーション
-- `res/anim/ah_current_activity_slide_left.xml`
-- `res/anim/ah_current_activity_slide_right.xml`
-- `res/anim/ah_next_activity_slide_left_in.xml`
-- `res/anim/ah_next_activity_slide_right_in.xml`
-
 #### レイアウト
 - `res/layout/ah_footer.xml`
 - `res/layout/ah_main_activity.xml`
@@ -89,9 +83,6 @@ SDKに含まれる以下のリソースファイルをあなたのAndroidアプ�
 - `res/layout/ah_messages_list_item_user.xml`
 - `res/layout/ah_register_issue_activity.xml`
 - `res/layout/ah_register_profile_activity.xml`
-- `res/layout/ah_faq_categories_activity.xml`
-- `res/layout/ah_faq_items_activity.xml`
-- `res/layout/ah_faq_item_detail_activity.xml`
 
 #### 画像
 - `res/drawable-xhdpi/message_balloon_admin.9.png`
@@ -127,7 +118,6 @@ android:minSdkVersionは8以上を指定してください。
 
 #### Permission
 以下のパーミッションを追加してください。  
-`your.application.package`はあなたのAndroidアプリケーションパッケージ名に置換えてください。
 
 ```xml
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -153,15 +143,6 @@ android:minSdkVersionは8以上を指定してください。
 <activity android:name="jp.flexfirm.apphelp.view.AHRegisterProfileActivity"
 	android:configChanges="orientation|screenSize"
 	android:theme="@style/AHTheme" />
-<activity android:name="jp.flexfirm.apphelp.view.AHFaqCategoriesActivity"
-        android:configChanges="orientation|screenSize"
-        android:theme="@style/AHTheme" />
-<activity android:name="jp.flexfirm.apphelp.view.AHFaqItemsActivity"
-        android:configChanges="orientation|screenSize"
-        android:theme="@style/AHTheme" />
-<activity android:name="jp.flexfirm.apphelp.view.AHFaqItemDetailActivity"
-        android:configChanges="orientation|screenSize"
-        android:theme="@style/AHTheme" />
 ```
 
 プロジェクト・ビルド・ターゲットがAPI Level13より低い場合`android:configChanges`にscreenSizeは指定できません。
@@ -170,74 +151,70 @@ android:minSdkVersionは8以上を指定してください。
 
 <a name="Usage">Usage</a>
 --------------------------------------------------
-### 初期化(アクティベーション)
-Applihelpを初期化します。  
+### Applihelpインスタンスを生成する
+
 Applihelpを利用するために必ず実行してください。  
-`android.intent.category.LAUNCHER`カテゴリのActivityクラスにて
-`onCreate(Bundle savedInstanceState)`の`super.onCreate()`直後に実行してください。
 
-#### PUSH通知受信(GCM)あり
 ```java
-protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_main);
-
-	// Applihelpのインスタンス生成
-	final AppHelp appHelp = new AppHelp(getApplicationContext());
-
-	// Applihelp初期化
-	appHelp.install(MainActivity.this, "Your-Sender-ID");
-}
+final AppHelp appHelp = new AppHelp(getApplicationContext());
 ```
-
-- `Your Sender ID`：GCM(Google Cloud Messaging)のSender ID
-
+</br>
+<h3 name="initialize">SenderID設定</h3>
+このメソッドによりGCMのSenderIDをセットします。  
+Push通知(GCM)を利用する場合は、__Applihelpの各機能を利用する前に必ず実行してください。__  
+Push通知(GCM)を利用しない場合は実行する必要はありません。
+```java
+appHelp.setSenderID("Your-Sender-ID");
+```
+- `Your Sender ID`：GCM(Google Cloud Messaging)のSender ID  
 まだSender IDを取得していない場合、以下を参考にSender IDを取得してください。  
-[Google Cloud Messaging Getting Started](http://developer.android.com/google/gcm/gs.html)
+[Google Cloud Messaging Getting Started](http://developer.android.com/google/gcm/gs.html)  
 
+<br>
 
-#### PUSH通知受信(GCM)なし
+### Applihelp　メイン画面表示
+Applihelpのメイン画面を表示します。  
 ```java
-protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_main);
-
-	// Applihelpのインスタンス生成
-	final AppHelp appHelp = new AppHelp(getApplicationContext());
-
-	// Applihelp初期化
-	appHelp.install(MainActivity.this, null);
-}
-```
-
-### FAQ画面、またはお問い合わせ履歴画面表示
-WebコンソールでFAQを登録していればFAQ画面を、そうでなければお問い合わせ履歴画面を表示します。
-
-```java
+//Applihelpメイン画面表示
 appHelp.showAppHelp(MainActivity.this);
 ```
-
-### FAQ画面表示
-ApplihelpのFAQ画面を表示します。
-
 ```java
-appHelp.showFaq(MainActivity.this);
-```
 
-### お問い合わせ履歴画面表示
-Applihelpのお問い合わせ履歴画面を表示します。
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.activity_main);
+	
+	// Applihelpのインスタンス生成
+	final AppHelp appHelp = new AppHelp(getApplicationContext());
+	//GCMのSenderIDを設定
+	appHelp.setSenderID("123456789123");
 
-```java
-appHelp.showHistory(MainActivity.this);
+	// アプリヘルプメイン画面表示ボタン クリック
+	Button showAppHelpButton = (Button) findViewById(R.id.showAppHelpButton);
+	showAppHelpButton.setOnClickListener(new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+
+			//Applihelpメイン画面表示
+			appHelp.showAppHelp(MainActivity.this);
+		}
+	});
+}
+
 ```
+</br>
+
 
 ### お問い合わせ画面表示
-Applihelpのお問い合わせ画面を表示します。  
-ユーザ名が未設定の場合はプロフィール入力画面が表示されます。
+
+Applihelpのお問い合わせ画面を表示します。
+ユーザ名が未設定の場合はプロフィール入力画面が表示されます。  
 
 ```java
 appHelp.showRegisterIssue(MainActivity.this);
 ```
+</br>
 
 ### ユーザ名取得・設定
 キャッシュに保存されているユーザ名を取得します。  
@@ -247,29 +224,47 @@ String userName = appHelp.getUserName();
 ```
 
 お問い合わせ時のユーザ名をあらかじめ設定することが可能です。  
-初回お問い合わせ時にユーザ名の入力を求められます。しかし、事前にユーザ名を設定することによって、それをスキップすることが可能です。
+初回お問い合わせ時にユーザ名の入力を求められます。しかし、事前にユーザ名を設定することによって、それをスキップすることが可能です。  
 
 ```java
 appHelp.setUserName("User-Name");
 ```
+</br>
+
+### カスタム情報を設定する  
+アプリで取得できる任意の情報（以降、「カスタム情報」）を、ApplihelpのWebコンソールで確認することができます。  
+任意のkeyとvalueの組み合わせで複数のカスタム情報を以下のように設定できます。  
+この情報は、以下のメソッドを呼び出した後の最初のユーザーの問合せ、もしくはメッセージと一緒に送信されます。  
+送信した情報は、Messages画面で最新の1件のみ確認できます。
+
+```java
+LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+map.put( "user_id", "3000" );
+map.put( "name", "たけし" );
+map.put( "appli_point", "4" );
+map.put( "in_app_purchase", "true" );
+
+appHelp.setCustomInfo(map);
+```
+
+</br>
 
 ### GCM登録ID取得・設定
 キャッシュに保存されているGCM登録IDを取得します。  
-
 ```java
 String GcmRegistrationId = appHelp.getGcmRegistrationId();
 ```
+<br>
 
-GCM登録IDをあらかじめ設定することが可能です。    
-Applihelpを初期化する際にGCM登録IDを取得します。しかし、事前にGCM登録IDを設定することによって、それをスキップすることが可能です。
+GCM登録IDをあらかじめ設定することが可能です。  
+Applihelpを内部で初期化する際にGCM登録IDを取得します。  しかし、事前にGCM登録IDを設定することによって、それをスキップすることが可能です。
 
 ```java
 appHelp.setGcmRegistrationId("GCM-Registration-ID");
 ```
-
+</br>
 ### 新着通知数取得
-1度も取得されていない未読メッセージの件数を取得します。
-
+1度も取得されていない未読メッセージの件数を取得します。  
 ```java
 // 取得成功時ハンドラ
 Handler successHandler = new Handler(){
@@ -295,6 +290,7 @@ Handler failHandler = new Handler(){
 // 新着通知数取得
 appHelp.getNotificationCount(MainActivity.this, successHandler, failHandler);
 ```
+</br>
 
 ### PUSH通知受信(GCM)
 お問い合わせに対して新着回答がある場合、PUSH通知を受信することが可能です。  
@@ -418,7 +414,8 @@ public class GcmBroadcastReceiver extends BroadcastReceiver {
 }
 ```
 
-Notificationを使って通知を行う場合、通知をクリックした時にメッセージ画面へ遷移するIntent(Pending Intent)を発行することが可能です。
+Notificationを使って通知を行う場合、通知をクリックした時にメッセージ画面へ遷移するIntent(Pending Intent)を発行することが可能です。  
+**※このメソッドを利用するには、1度でもSenderID設定が行われている必要があります。**
 
 ```java
 // Notificationクリック時に発行するインテント生成
@@ -454,7 +451,9 @@ PUSH通知を利用するために以下のパーミッションを追加して�
 - `your.application.package.permission.C2D_MESSAGE`はPUSH通知を受信するために使用します。
 
 作成したReceiverを`<application>`〜`</application>`に追加してください。  
-`your.application.package`はあなたのAndroidアプリケーションパッケージ名に置換えてください。
+`your.application.package`はあなたのAndroidアプリケーションパッケージ名に置換えてください。  
+なお、Google Play servicesのRevisionによっては、`"com.google.android.gms.version"`のmeta-data記載が
+不要な場合があります。
 
 ```xml
 <receiver
@@ -466,6 +465,8 @@ PUSH通知を利用するために以下のパーミッションを追加して�
 		<category android:name="your.application.package" />
 	</intent-filter>
 </receiver>
+<meta-data android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
 ```
 
 ### 文字列
@@ -511,45 +512,28 @@ Applihelpが使用するテーマは`res/values/ah_theme.xml`に定義されて�
 
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
-- [Ver.1.2.0]Released on 
-	- `apphelp_sdk.jar`  
-		- Webコンソールで設定したFAQを表示できる機能を追加
-	- **[Usage](#Usage)**／**初期化(アクティベーション)**／**PUSH通知受信(GCM)あり**　が更新されています。
-		- [更新]`appHelp.install(MainActivity.this, "Your-Sender-ID");`  
-	- **[Usage](#Usage)**／**初期化(アクティベーション)**／**PUSH通知受信(GCM)なし**　が更新されています。
-		- [更新]`appHelp.install(MainActivity.this, null);` 
-	- **[Usage](#Usage)**／**FAQ画面、またはお問い合わせ履歴画面表示** が追加されています。  
-		- [追加]`appHelp.showAppHelp(MainActivity.this);` 
-	- **[Usage](#Usage)**／**FAQ画面表示**　が追加されています。 
-		- [追加]`appHelp.showFaq(MainActivity.this);`
-	- **[Usage](#Usage)**／**お問い合わせ履歴画面表示**　が更新されています。  
-		- [更新]`appHelp.showHistory(MainActivity.this);`
-	- **[Installation](#Installation)**／**リソースファイル配置**　において記述が更新されています。  
-		- ・・アニメーション・・
-		- [追加]`res/anim/ah_current_activity_slide_left.xml`  
-		- [追加]`res/anim/ah_current_activity_slide_right.xml`  
-		- [追加]`res/anim/ah_next_activity_slide_left_in.xml`  
-		- [追加]`res/anim/ah_next_activity_slide_right_in.xml`  
-		- ・・レイアウト・・
-		- [追加]`res/layout/ah_faq_categories_activity.xml`  
-		- [追加]`res/layout/ah_faq_items_activity.xml`  
-		- [追加]`res/layout/ah_faq_item_detail_activity.xml`  
-	- **[Installation](#Installation)**／**AndroidManifest.xmlの編集**／**Activity**　において記述が追加されています。  
-		- [追加] 以下
-
-```xml
-<activity android:name="jp.flexfirm.apphelp.view.AHFaqCategoriesActivity"
-        android:configChanges="orientation|screenSize"
-        android:theme="@style/AHTheme" />
-<activity android:name="jp.flexfirm.apphelp.view.AHFaqItemsActivity"
-        android:configChanges="orientation|screenSize"
-        android:theme="@style/AHTheme" />
-<activity android:name="jp.flexfirm.apphelp.view.AHFaqItemDetailActivity"
-        android:configChanges="orientation|screenSize"
-        android:theme="@style/AHTheme" />
-```
-
-
+- [Ver.1.2.1]
+	- **[Usage](#Usage)**	
+		- [削除]初期化（アクティベーション）  
+		- [追加]SenderID設定  
+		- [更新]Applihelp　メイン画面表示  
+		初期化（アクティベーション）を実行しておく旨の記載を削除
+		- [更新]お問い合わせ画面表示  
+		初期化（アクティベーション）を実行しておく旨の記載を削除
+		- [更新]GCM登録ID取得・設定  
+		初期化（アクティベーション）を実行しておく旨の記載を削除
+		- [更新]新着通知数取得  
+		初期化（アクティベーション）を実行しておく旨の記載を削除
+		- [更新]PUSH通知受信(GCM)  
+		初期化（アクティベーション）を実行しておく旨の記載を削除
+		Manifest内にmeta-dataの記載を追加
+- [Ver.1.2.0]
+	- **[Usage](#Usage)**	
+		- [追加]Applihelpインスタンスを生成する  
+		- [更新]初期化（アクティベーション）  
+		呼出すタイミングをApplihelpの一部のメソッドを呼出す直前に変更
+		- [追加]カスタム情報を設定する  
+- [Ver.1.1.1] Only Applihelp for iOS
 - [Ver.1.1.0]Released on Dec 7, 2013  
 	- `apphelp_sdk.jar`  
 		- メッセージとして「ストアレビューリクエスト」を受信できる機能を追加
@@ -569,7 +553,7 @@ Applihelpが使用するテーマは`res/values/ah_theme.xml`に定義されて�
 	- [更新]`res/layout/ah_register_issue_activity.xml`  
 	- [更新]`res/layout/ah_register_profile_activity.xml`  
 
-- [Ver.1.0]Released on Oct 20, 2013
+- [Ver.1.0.0]Released on Oct 20, 2013
 
 **[[⬆]](#TOC)**
 
@@ -584,4 +568,4 @@ The Android Asynchronous Http Client is released under the Android-friendly Apac
 **[[⬆]](#TOC)**
 
 ---
-© 2013 [KSK Co., Ltd.](http://www.flexfirm.jp) All rights reserved.
+© [KSK Co., Ltd.](http://www.flexfirm.jp) All rights reserved.
