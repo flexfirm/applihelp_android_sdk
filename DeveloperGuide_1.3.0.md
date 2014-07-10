@@ -515,7 +515,7 @@ Applihelpが使用するテーマは`res/values/ah_theme.xml`に定義されて�
 
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
-- [Ver.1.3] Only Applihelp for Unity(Android)
+- [Ver.1.3.0] Unity対応
 - [Ver.1.2.1]
 	- **[Usage](#Usage)**	
 		- [削除]初期化（アクティベーション）  
