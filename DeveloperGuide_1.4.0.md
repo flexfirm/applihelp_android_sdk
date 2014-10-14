@@ -39,6 +39,9 @@ SDKを利用するためには事前に[Applihelp](http://console.applihelp.com)
 - Androidアプリケーションパッケージ名(例：com.example.sample)  
 - Google API Key(PUSH通知を利用する場合)  
 
+Installationについて[導入動画（音声付き）](https://www.youtube.com/watch?v=HTOHgYxcrsw&feature=youtu.be/)をご用意しておりますのでご利用ください。
+[![アプリヘルプ導入動画](https://i.ytimg.com/vi/HTOHgYxcrsw/sddefault.jpg)](https://www.youtube.com/watch?v=HTOHgYxcrsw&feature=youtu.be/)
+
 SDKファイルの構成は下記の通りです。
 
 <pre>
@@ -178,6 +181,13 @@ Push通知を利用する場合
         android:theme="@style/AHTheme" />
 ```
 プロジェクト・ビルド・ターゲットがAPI Level13より低い場合`android:configChanges`にscreenSizeは指定できません。  
+開発環境のバージョンによっては、`<application>`〜`</application>`に以下の追記が必要な場合があります。
+
+```xml
+<meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+```
 
 ### Receiver  
 Push通知を利用する場合 `<application>`〜`</application>`に以下の receiver を追加してください。 
@@ -228,7 +238,7 @@ FAQが登録されていればFAQ画面を表示します。
 ```java
 appHelp.showAppHelp(MainActivity.this);
 ```
-
+例えば以下のように実装します。
 ```java
 
 @Override
@@ -253,6 +263,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 
 ```
+※ActionBarActivityを利用する場合は`onCreateView()`内で実装するなどしてください。
 
 ### FAQ画面表示
 ApplihelpのFAQ画面を表示します。
@@ -592,7 +603,7 @@ appHelp.clearGcmSettings();
 
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
-- [Ver.1.4.0]Released on Oct 9, 2014  
+- [Ver.1.4.0]Released on 
 	- `apphelp_sdk.jar`  
 		- [追加]Webコンソールで設定したFAQを表示できる機能    
 		- [追加]デフォルトのPush通知Receiver`AppHelpGcmBroadcastReceiver`  
@@ -604,6 +615,7 @@ appHelp.clearGcmSettings();
 	- [Installation](#Installation)／AndroidManifest.xmlの編集／Activity  
 		- [追加]`jp.flexfirm.apphelp.view.AHFaqItemsActivity`  
 		- [追加]`jp.flexfirm.apphelp.view.AHFaqItemDetailActivity`  
+		- [追加]`<meta-data　…/>`
 	- [Usage](#Usage)／Applihelpの初期設定を行う　
 		- [追加] SenderID設定  
 		- [追加] FAQ画面表示  
