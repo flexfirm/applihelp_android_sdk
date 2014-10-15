@@ -39,6 +39,9 @@ SDKを利用するためには事前に[Applihelp](http://console.applihelp.com)
 - Androidアプリケーションパッケージ名(例：com.example.sample)  
 - Google API Key(PUSH通知を利用する場合)  
 
+Installationについて[導入動画（音声付き）](https://www.youtube.com/watch?v=HTOHgYxcrsw&feature=youtu.be/)をご用意しておりますのでご利用ください。
+[![アプリヘルプ導入動画](https://i.ytimg.com/vi/HTOHgYxcrsw/sddefault.jpg)](https://www.youtube.com/watch?v=HTOHgYxcrsw&feature=youtu.be/)
+
 SDKファイルの構成は下記の通りです。
 
 <pre>
@@ -178,6 +181,13 @@ Push通知を利用する場合
         android:theme="@style/AHTheme" />
 ```
 プロジェクト・ビルド・ターゲットがAPI Level13より低い場合`android:configChanges`にscreenSizeは指定できません。  
+開発環境のバージョンによっては、`<application>`〜`</application>`に以下の追記が必要な場合があります。
+
+```xml
+<meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+```
 
 ### Receiver  
 Push通知を利用する場合 `<application>`〜`</application>`に以下の receiver を追加してください。 
@@ -228,7 +238,7 @@ FAQが登録されていればFAQ画面を表示します。
 ```java
 appHelp.showAppHelp(MainActivity.this);
 ```
-
+例えば以下のように実装します。
 ```java
 
 @Override
@@ -253,6 +263,7 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 
 ```
+※ActionBarActivityを利用する場合は`onCreateView()`内で実装するなどしてください。
 
 ### FAQ画面表示
 ApplihelpのFAQ画面を表示します。
@@ -592,7 +603,7 @@ appHelp.clearGcmSettings();
 
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
-- [Ver.1.4.0]Released on Oct 9, 2014  
+- [Ver.1.4.0] Released on Oct 15, 2014
 	- `apphelp_sdk.jar`  
 		- [追加]Webコンソールで設定したFAQを表示できる機能    
 		- [追加]デフォルトのPush通知Receiver`AppHelpGcmBroadcastReceiver`  
@@ -604,14 +615,15 @@ appHelp.clearGcmSettings();
 	- [Installation](#Installation)／AndroidManifest.xmlの編集／Activity  
 		- [追加]`jp.flexfirm.apphelp.view.AHFaqItemsActivity`  
 		- [追加]`jp.flexfirm.apphelp.view.AHFaqItemDetailActivity`  
+		- [追加]`<meta-data　…/>`
 	- [Usage](#Usage)／Applihelpの初期設定を行う　
 		- [追加] SenderID設定  
 		- [追加] FAQ画面表示  
 		- [更新] PUSH通知受信(GCM)  
 		- [追加] PUSH通知受信(GCM)をカスタマイズする  
 		- [追加] 「バックアップと復元」に関する注意   
-- [Ver.1.3.0] Unity対応
-- [Ver.1.2.1]
+- [Ver.1.3.0] Released on Jul 30, 2014 Unity対応
+- [Ver.1.2.1] Released on Jun 25, 2014  
 	- **[Usage](#Usage)**	
 		- [削除]初期化（アクティベーション）  
 		- [追加]SenderID設定  
@@ -629,14 +641,13 @@ appHelp.clearGcmSettings();
 		- [更新]PUSH通知受信(GCM)  
 		初期化（アクティベーション）を実行しておく旨の記載を削除
 		Manifest内にmeta-dataの記載を追加
-- [Ver.1.2.0]
+- [Ver.1.2.0] not Release  
 	- **[Usage](#Usage)**	
 		- [追加]Applihelpインスタンスを生成する  
 		- [更新]初期化（アクティベーション）  
 		呼出すタイミングをApplihelpの一部のメソッドを呼出す直前に変更
 		- [追加]カスタム情報を設定する  
-- [Ver.1.1.1] Only Applihelp for iOS
-- [Ver.1.1.0]Released on Dec 7, 2013  
+- [Ver.1.1.0] Released on Dec 7, 2013  
 	- `apphelp_sdk.jar`  
 		- メッセージとして「ストアレビューリクエスト」を受信できる機能を追加
 		- 端末情報の取得項目に「着信モード」を追加
@@ -655,7 +666,7 @@ appHelp.clearGcmSettings();
 	- [更新]`res/layout/ah_register_issue_activity.xml`  
 	- [更新]`res/layout/ah_register_profile_activity.xml`  
 
-- [Ver.1.0.0]Released on Oct 20, 2013
+- [Ver.1.0.0] Released on Oct 20, 2013
 
 **[[⬆]](#TOC)**
 
