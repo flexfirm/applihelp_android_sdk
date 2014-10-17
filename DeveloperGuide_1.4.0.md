@@ -603,7 +603,7 @@ appHelp.clearGcmSettings();
 
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
-- [Ver.1.4.0]Released on 
+- [Ver.1.4.0]Released on Released on Oct 15, 2014
 	- `apphelp_sdk.jar`  
 		- [追加]Webコンソールで設定したFAQを表示できる機能    
 		- [追加]デフォルトのPush通知Receiver`AppHelpGcmBroadcastReceiver`  
@@ -622,8 +622,8 @@ appHelp.clearGcmSettings();
 		- [更新] PUSH通知受信(GCM)  
 		- [追加] PUSH通知受信(GCM)をカスタマイズする  
 		- [追加] 「バックアップと復元」に関する注意   
-- [Ver.1.3.0] Unity対応
-- [Ver.1.2.1]
+- [Ver.1.3.0] Released on Jul 30, 2014 Unity対応
+- [Ver.1.2.1] Released on Jun 25, 2014  
 	- **[Usage](#Usage)**	
 		- [削除]初期化（アクティベーション）  
 		- [追加]SenderID設定  
@@ -641,14 +641,13 @@ appHelp.clearGcmSettings();
 		- [更新]PUSH通知受信(GCM)  
 		初期化（アクティベーション）を実行しておく旨の記載を削除
 		Manifest内にmeta-dataの記載を追加
-- [Ver.1.2.0]
+- [Ver.1.2.0] not Release 
 	- **[Usage](#Usage)**	
 		- [追加]Applihelpインスタンスを生成する  
 		- [更新]初期化（アクティベーション）  
 		呼出すタイミングをApplihelpの一部のメソッドを呼出す直前に変更
-		- [追加]カスタム情報を設定する  
-- [Ver.1.1.1] Only Applihelp for iOS
-- [Ver.1.1.0]Released on Dec 7, 2013  
+		- [追加]カスタム情報を設定する 
+- [Ver.1.1.0] Released on Dec 7, 2013  
 	- `apphelp_sdk.jar`  
 		- メッセージとして「ストアレビューリクエスト」を受信できる機能を追加
 		- 端末情報の取得項目に「着信モード」を追加
@@ -667,7 +666,7 @@ appHelp.clearGcmSettings();
 	- [更新]`res/layout/ah_register_issue_activity.xml`  
 	- [更新]`res/layout/ah_register_profile_activity.xml`  
 
-- [Ver.1.0.0]Released on Oct 20, 2013
+- [Ver.1.0.0] Released on Oct 20, 2013
 
 **[[⬆]](#TOC)**
 
