@@ -586,10 +586,11 @@ Applihelpが使用するテーマは`res/values/ah_theme.xml`に定義されて�
 	：
 	android:visibility="gone" />
 ```
+## アプリヘルプ利用時の注意
 
 ### 「バックアップと復元」に関する注意  
 ※（SDK Ver.1.4.0以降）  
-OSの機能「バックアップと復元」によってアプリのデータを復元した場合、GCMのRegistrationIDを更新しなければ、Pushが正しく飛ばなくなる可能性があります（詳細は下記をご参照ください）  
+OSの機能「バックアップと復元」によってアプリのデータを復元した場合、GCMのRegistrationIDを更新しないままだとPushが正しく飛ばなくなる可能性があります（詳細は下記をご参照ください）  
 http://developer.android.com/google/gcm/adv.html  
 データの復元時には以下のメソッドで一度RegistrationIDをクリアしてください。
 ```java
@@ -599,11 +600,33 @@ appHelp.clearGcmSettings();
 
 ```
 
+#### 一部のOSで発生するAsynctask利用時のjava.lang.ClassNotFoundExceptionの回避について  
+Asynctask利用時にjava.lang.ClassNotFoundExceptionが発生する問題が下記のAndroid Open Source Project - Issue Trackerにて共有されています。
+https://code.google.com/p/android/issues/detail?id=81083
+
+アプリヘルプでもAsynctaskを利用しているため、この問題が発生します。
+しかし、アプリヘルプ以外でAsynctaskを利用しても発生する可能性があるので、この問題はアプリ側で対応することをお勧めしております。回避手順は以下になります。
+
+・１：Applicationクラスを継承したクラスのonCreateメソッドでエラー回避のための例外処理を追加
+```java
+　　　//（例）
+	public class YourApplication extends Application {
+
+	@Override
+	public void onCreate() {
+		try {Class.forName("android.os.AsyncTask");} catch(Throwable ignore) {}
+	        super.onCreate();
+	    }
+	}
+```
+
+・２：Manifestファイルの<application>タグname属性に、上記で作成したクラス（この場合、YourApplicationクラス）を記載する
+
 **[[⬆]](#TOC)**
 
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
-- [Ver.1.4.0]Released on Released on Oct 15, 2014
+- [Ver.1.4.0] Released on Oct 15, 2014
 	- `apphelp_sdk.jar`  
 		- [追加]Webコンソールで設定したFAQを表示できる機能    
 		- [追加]デフォルトのPush通知Receiver`AppHelpGcmBroadcastReceiver`  
@@ -621,7 +644,7 @@ appHelp.clearGcmSettings();
 		- [追加] FAQ画面表示  
 		- [更新] PUSH通知受信(GCM)  
 		- [追加] PUSH通知受信(GCM)をカスタマイズする  
-		- [追加] 「バックアップと復元」に関する注意   
+	- [追加]アプリヘルプ利用時の注意
 - [Ver.1.3.0] Released on Jul 30, 2014 Unity対応
 - [Ver.1.2.1] Released on Jun 25, 2014  
 	- **[Usage](#Usage)**	
@@ -641,12 +664,12 @@ appHelp.clearGcmSettings();
 		- [更新]PUSH通知受信(GCM)  
 		初期化（アクティベーション）を実行しておく旨の記載を削除
 		Manifest内にmeta-dataの記載を追加
-- [Ver.1.2.0] not Release 
+- [Ver.1.2.0] not Release  
 	- **[Usage](#Usage)**	
 		- [追加]Applihelpインスタンスを生成する  
 		- [更新]初期化（アクティベーション）  
 		呼出すタイミングをApplihelpの一部のメソッドを呼出す直前に変更
-		- [追加]カスタム情報を設定する 
+		- [追加]カスタム情報を設定する  
 - [Ver.1.1.0] Released on Dec 7, 2013  
 	- `apphelp_sdk.jar`  
 		- メッセージとして「ストアレビューリクエスト」を受信できる機能を追加
