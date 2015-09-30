@@ -627,6 +627,7 @@ https://code.google.com/p/android/issues/detail?id=81083
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
 - [Ver.1.4.0] Released on Oct 15, 2014
+	-ニックネーム入力画面とお問い合わせ画面を統合しました。
 	- `apphelp_sdk.jar`  
 		- [追加]Webコンソールで設定したFAQを表示できる機能    
 		- [追加]デフォルトのPush通知Receiver`AppHelpGcmBroadcastReceiver`  
