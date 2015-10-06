@@ -586,9 +586,11 @@ Applihelpが使用するテーマは`res/values/ah_theme.xml`に定義されて�
 	：
 	android:visibility="gone" />
 ```
-## アプリヘルプ利用時の注意
 
-### 「バックアップと復元」に関する注意  
+<a name="アプリヘルプ利用時の注意">アプリヘルプ利用時の注意</a>
+--------------------------------------------------
+
+####「バックアップと復元」に関する注意  
 ※（SDK Ver.1.4.0以降）  
 OSの機能「バックアップと復元」によってアプリのデータを復元した場合、GCMのRegistrationIDを更新しないままだとPushが正しく飛ばなくなる可能性があります（詳細は下記をご参照ください）  
 http://developer.android.com/google/gcm/adv.html  
@@ -621,6 +623,72 @@ https://code.google.com/p/android/issues/detail?id=81083
 ```
 
 ・２：Manifestファイルの<application>タグname属性に、上記で作成したクラス（この場合、YourApplicationクラス）を記載する
+
+####Android 6.0 Marshmallowで発生するメッセージ画面の表示くずれ問題について
+アプリヘルプのsample/res/layout/ah_messages_activity.xmlをそのままご利用になるとAndroid 6.0 Marshmallowにてメッセージの入力EditTextと送信Buttonが表示されない問題を確認しています。
+
+以下の修正例を参考に修正を行ってください。
+```xml
+～略～
+<RelativeLayout
+    android:id="@+id/ah_messages_activity_footer"
+    style="?attr/ah_messages_activity_footer_style_ref"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/ah_messages_activity_brand_footer"
+    android:gravity="center" >
+
+    <Button
+        android:id="@+id/ah_messages_activity_footer_send"
+        style="?attr/ah_messages_activity_footer_send_style_ref"
+        android:layout_width="@dimen/ah_messages_activity_footer_send_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/ah_messages_activity_footer_send" />
+
+    <EditText
+        android:id="@+id/ah_messages_activity_footer_message"
+        style="?attr/ah_messages_activity_footer_message_style_ref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ah_messages_activity_footer_send"
+        android:layout_toLeftOf="@+id/ah_messages_activity_footer_send"
+        android:hint="@string/ah_messages_activity_footer_message_hint"
+        android:maxLength="400" />
+</RelativeLayout>
+～略～
+```
+
+↓修正例
+
+```xml
+～略～
+<LinearLayout
+	android:id="@+id/ah_messages_activity_footer"
+	style="?attr/ah_messages_activity_footer_style_ref"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	android:layout_above="@+id/ah_messages_activity_brand_footer">
+
+	<EditText
+	    android:id="@+id/ah_messages_activity_footer_message"
+	    style="?attr/ah_messages_activity_footer_message_style_ref"
+	    android:layout_weight="1"
+	    android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:hint="@string/ah_messages_activity_footer_message_hint"
+	    android:maxLength="400" />
+	
+	<Button
+	    android:id="@+id/ah_messages_activity_footer_send"
+	    style="?attr/ah_messages_activity_footer_send_style_ref"
+	    android:layout_width="@dimen/ah_messages_activity_footer_send_width"
+	    android:layout_height="wrap_content"
+	    android:text="@string/ah_messages_activity_footer_send" />
+</LinearLayout>
+～略～
+```
 
 **[[⬆]](#TOC)**
 
