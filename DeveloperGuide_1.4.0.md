@@ -628,6 +628,9 @@ https://code.google.com/p/android/issues/detail?id=81083
 アプリヘルプのsample/res/layout/ah_messages_activity.xmlをそのままご利用になるとAndroid 6.0 Marshmallowにてメッセージの入力EditTextと送信Buttonが表示されない問題を確認しています。
 
 以下の修正例を参考に修正を行ってください。
+
+修正前
+`ah_messages_activity.xml`
 ```xml
 ～略～
 <RelativeLayout
@@ -659,8 +662,8 @@ https://code.google.com/p/android/issues/detail?id=81083
 ～略～
 ```
 
-↓修正例
-
+↓修正後（例）
+`ah_messages_activity.xml`
 ```xml
 ～略～
 <LinearLayout
