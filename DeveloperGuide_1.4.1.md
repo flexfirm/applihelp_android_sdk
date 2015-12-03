@@ -728,7 +728,7 @@ https://code.google.com/p/android/issues/detail?id=81083
 <a name="Changelogs">Changelogs</a>
 --------------------------------------------------
 
-- [Ver.1.4.1] Released on Nov 30, 2015
+- [Ver.1.4.1] Released on Dec 3, 2015
 	- 外部ライブラリAsynchronous Http Clientをアプリヘルプ内に内包（ガイドから記載を削除）
 		- ※Ver.1.4.0以前のライブラリからVer.1.4.1以降へバージョンアップした場合、アプリヘルプではandroid-async-httpライブラリは不要になります。プロジェクト内で使用していなければ、libフォルダに残った同ライブラリを削除してください。
 	- [更新]アプリヘルプ利用時の注意
